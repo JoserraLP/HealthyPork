@@ -2,7 +2,8 @@
 
 var fs = require('fs'),
 http = require('http'),
-path = require('path');
+path = require('path'),
+api = require('./service/TiempoAPIService');
 
 var express = require("express");
 var app = express();
@@ -35,5 +36,10 @@ oasTools.initialize(oasDoc, app, function() {
             console.log('API docs (Swagger UI) available on http://localhost:' + serverPort + '/docs');
             console.log("________________________________________________________________");
         }
+
+        var minutes = 0.5, interval = minutes*60*1000;
+        setInterval(function () {
+            api.postWeather();
+        }, interval);
     });
 });

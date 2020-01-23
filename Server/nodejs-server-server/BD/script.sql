@@ -1,11 +1,5 @@
 #CREATE DATABASE HealthyPork;
 USE HealthyPork;
-CREATE TABLE Ozone (
-	id INT NOT NULL AUTO_INCREMENT,
-    amount DECIMAL(3,2),  
-    date TIMESTAMP,
-    PRIMARY KEY(id)
-);
 CREATE TABLE AirQuality (
 	id INT NOT NULL AUTO_INCREMENT,
     amount INT,  
@@ -36,9 +30,17 @@ CREATE TABLE Temperature (
     date TIMESTAMP,
     PRIMARY KEY(id)    
 );
-CREATE TABLE NO2_CO (
+CREATE TABLE WEATHER (
 	id INT NOT NULL AUTO_INCREMENT,
-    amount DECIMAL(3,2),  
+    state VARCHAR(10),  
+    temp DECIMAL(4,2),
+    temp_feel DECIMAL(4,2),
+    temp_min DECIMAL(4,2),
+    temp_max DECIMAL(4,2),
+    pressure INT,
+    humidity INT,
+    wind DECIMAL(5,2),
     date TIMESTAMP,
+    season VARCHAR(10),
     PRIMARY KEY(id)    
 );

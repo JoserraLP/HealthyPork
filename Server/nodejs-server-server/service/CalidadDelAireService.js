@@ -63,6 +63,7 @@ module.exports.postAirQuality = function(req, res, next) {
     console.log(req.undefined.originalValue.amount);
     var query = 'INSERT INTO AirQuality SET ?'
     var date = new Date();
+    
     var data = {
         amount: req.undefined.originalValue.amount,
         date: date

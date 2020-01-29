@@ -28,7 +28,6 @@ void setup()
   dht.begin();
   
   //Serial.begin(9600);
-
   while (status != WL_CONNECTED) {
     //Serial.print("Attempting to connect to Network named: ");
     //Serial.println(ssid);             
@@ -38,18 +37,18 @@ void setup()
   
 } 
 
-void calibra(int nsegs)
+void calibration(int nsegs)
 {
-  int tcalibra = 100 * nsegs; // 1000 = 1 segundo
-  long tsini; // Tiempo de inicio del arduino
-  int vact, vmax=0, vmin=1023; // Voltajes actual, maximo y minimo
+  int tcalibra = 100 * nsegs; // 1000 = 1 second
+  long tsini; // Start time Arduino
+  int vact, vmax=0, vmin=1023; // Actual, maximum and minimum voltage
   
-  tsini = millis(); // millis() es el tiempo en milisegundos desde el encendido del Arduino
+  tsini = millis(); // time in ms since the arduino is started
 
-  ////////Luminosidad////////
+  ////////Luminosity////////
 
-  // Obtener el valor mas alto de voltaje
-  //Serial.println("Calibrando sensor LDR...");
+  // Get the higher value of the light
+  //Serial.println("Calibrating LDR sensor...");
   while (millis()-tsini < tcalibra) {
     vact = analogRead(pinLDR);
     if(vact>vmax) vmax=vact;
@@ -58,7 +57,7 @@ void calibra(int nsegs)
 
   //Serial.print(vmax);
 
-  // Establecer la dirección del servicio
+  // Stablish the service direction
   String path = "/luminosity";
   String contentType = "application/json";
   String postData = "{\"amount\":";
@@ -66,29 +65,30 @@ void calibra(int nsegs)
   postData += "}";
   
   
-  // Enviar la petición al servicio correspondiente
+  // Send the request to the service
   client.post(path, contentType, postData);
   
-  // Obtener el código de estado de respuesta
+  // Get the response status
   statusCode = client.responseStatusCode();
   response = client.responseBody();
-  //Serial.println("Respuesta desde el servidor");
+  //Serial.println("Response from the server");
   //Serial.println(response);
-  
-  
-  ////////Temperatura/Humedad////////
 
-  // Serial.println("Calibrando sensor DHT...");
-  // Leer la humedad y la temperatura tarda 250 ms
+  delay(1000);
+  
+  
+  ////////Temperature/Humidity////////
+
+  // Serial.println("Calibrating DHT sensor...");
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
 
   if (isnan(humidity) || isnan(temperature)) {
-    // Serial.println("Fallo al leer del sensor DHT!!");
+    // Serial.println("Failed when reading DHT sensor!!");
     return;
   }
 
-  // Establecer la dirección del servicio
+  // Stablish the service direction
   path = "/humidity";
   postData = "{\"amount\":";
   postData += humidity;
@@ -96,16 +96,16 @@ void calibra(int nsegs)
   // Serial.print(humidity);
 
   
-  // Enviar la petición al servicio correspondiente
+  // Send the request to the service
   client.post(path, contentType, postData);
   
-  // Obtener el código de estado de respuesta
+  // Get the response status
   statusCode = client.responseStatusCode();
   response = client.responseBody();
-  // Serial.println("Respuesta desde el servidor");
+  // Serial.println("Response from the server");
   // Serial.println(response);
 
-  // Establecer la dirección del servicio
+  // Stablish the service direction
   path = "/temperature";
   postData = "{\"amount\":";
   postData += temperature;
@@ -113,21 +113,21 @@ void calibra(int nsegs)
   // Serial.print(temperature);
 
   
-  // Enviar la petición al servicio correspondiente
+  // Send the request to the service 
   client.post(path, contentType, postData);
   
-  // Obtener el código de estado de respuesta
+  // Get the response status
   statusCode = client.responseStatusCode();
   response = client.responseBody();
-  // Serial.println("Respuesta desde el servidor");
+  // Serial.println("Response from the server");
   // Serial.println(response);
 
   // Serial.println("-----------------------");
-
+  delay(1000);
   
 }
 
 void loop()
 {   
-  calibra(7);
+  calibration(7);
 }

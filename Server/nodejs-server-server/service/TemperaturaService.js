@@ -63,6 +63,7 @@ module.exports.postTemperature = function(req, res, next) {
     console.log(req.undefined.originalValue.amount);
     var query = 'INSERT INTO Temperature SET ?'
     var date = new Date();
+    
     var data = {
         amount: Number((req.undefined.originalValue.amount).toFixed(2)),
         date: date

@@ -19,7 +19,7 @@ String response;
 void setup()
 {
   
-  Serial.begin(9600);
+  // Serial.begin(9600);
   
   while (status != WL_CONNECTED) {
     Serial.print("Attempting to connect to Network named: ");
@@ -30,79 +30,79 @@ void setup()
   
 } 
 
-void calibra(int nsegs)
+void calibration(int nsegs)
 {
-  int tcalibra = 100 * nsegs; // 1000 = 1 segundo
-  long tsini; // Tiempo de inicio del arduino
-  int vact, vmax=0, vmin=1023; // Voltajes actual, maximo y minimo
-  
-  tsini = millis(); // millis() es el tiempo en milisegundos desde el encendido del Arduino
+  ////////Air quality////////
 
-  ////////Calidad del aire////////
-
-  int airQuality = analogRead(0);       // Obtener la informacion desde el pin analogico 0
-  
-  Serial.println("Calibrando sensor MQ135...");
+  int airQuality = analogRead(0);       // Read from analog 0
+    
+  // Serial.println("Calibrating MQ135 sensor...");
 
   if (isnan(airQuality)) {
-    Serial.println("Fallo al leer del sensor MQ135!");
+    // Serial.println("Failed reading value from MQ135 sensor!");
     return;
   }
-  
+
+  /*
   Serial.print("AirQua=");
   Serial.print(airQuality, DEC);          
   Serial.println(" PPM");  
+  */
   
-  // Establecer la dirección del servicio
+  // Stablish the service direction
   String path = "/airquality";
   String contentType = "application/json";
   String postData = "{\"amount\":";
   postData += airQuality;
   postData += "}";
   
-  // Enviar la petición al servicio correspondiente
+  // Send the request to the service
   client.post(path, contentType, postData);
   
-  // Obtener el código de estado de respuesta
+  // Get the response status
   statusCode = client.responseStatusCode();
   response = client.responseBody();
-  Serial.println("Respuesta desde el servidor");
-  Serial.println(response);
+  //Serial.println("Response from the server");
+  // Serial.println(response);
 
-  ////////Ruido////////
+  delay(1000);
 
-  Serial.println("Calibrando sensor de ruido...");
+  ////////Noise////////
 
-  int noise = analogRead (pinNoise) ; // Leer el valor de sonido
+  // Serial.println("Calibrating noise sensor...");
+
+  int noise = analogRead (pinNoise) ; // Read from analog pin
 
   if (isnan(noise)) {
-    Serial.println("Fallo al leer del sensor de ruido!");
+    //Serial.println("Failed reading value from noise sensor!");
     return;
   }
-  
+
+  /*
   Serial.print("Sound=");
   Serial.print(noise, DEC);   
   Serial.println("");       
+  */
   
-  // Establecer la dirección del servicio
+  // Stablish the service direction
   path = "/noise";
   postData = "{\"amount\":";
   postData += noise;
   postData += "}";
   
-  // Enviar la petición al servicio correspondiente
+  // Send the request to the service 
   client.post(path, contentType, postData);
   
-  // Obtener el código de estado de respuesta
+  // Get the response status
   statusCode = client.responseStatusCode();
   response = client.responseBody();
-  Serial.println("Respuesta desde el servidor");
-  Serial.println(response);
+  // Serial.println("Response from the server");
+  // Serial.println(response);
 
   delay(1000);
 }
 
 void loop()
 {   
-  calibra(7);
+  calibration(7);
 }

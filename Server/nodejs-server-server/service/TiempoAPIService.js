@@ -14,17 +14,17 @@ connection.connect();
 function calculateSeason(date) {
     var month = date.getMonth()+1;
     if (month > 2 && month < 6)
-        return 'Primavera';
+        return 'Spring';
     else if (month > 5 && month < 9)
-        return 'Verano';
+        return 'Summer';
     else if (month > 8 && month < 12)
-        return 'Otoño';
+        return 'Autumn';
     else if (month < 3 || month > 11)
-        return 'Invierno';
+        return 'Winter';
 }
 
 function calculateCelsius(tempk) {
-    return Number(((tempk - 273,15).toFixed(2)));
+    return Number(((tempk - 273.15).toFixed(2)));
 }
 
 module.exports.postWeather = function() {

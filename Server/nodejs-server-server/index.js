@@ -37,7 +37,7 @@ oasTools.initialize(oasDoc, app, function() {
             console.log("________________________________________________________________");
         }
 
-        var minutes = 0.5, interval = minutes*60*1000;
+        var minutes = 1, interval = minutes*60*1000;
         setInterval(function () {
             api.postWeather();
         }, interval);

@@ -35,12 +35,16 @@ module.exports.postWeather = function() {
             if (err) { return console.log(err);}
             var date = new Date();
             var query = 'INSERT INTO weather SET ?';
+            let temp = calculateCelsius(res.body.main.temp);
+            let temp_feel = calculateCelsius(res.body.main.feels_like);
+            let temp_min = calculateCelsius(res.body.main.temp_min);
+            let temp_max = calculateCelsius(res.body.main.temp_max);
             var weather = {
                 state: res.body.weather[0].main,
-                temp: calculateCelsius(res.body.main.temp),
-                temp_feel: calculateCelsius(res.body.main.feels_like),
-                temp_min: calculateCelsius(res.body.main.temp_min),
-                temp_max: calculateCelsius(res.body.main.temp_max),
+                temp: temp,
+                temp_feel: temp_feel,
+                temp_min: temp_min,
+                temp_max: temp_max,
                 pressure: res.body.main.pressure,
                 humidity: res.body.main.humidity,
                 wind: res.body.wind.speed,
@@ -50,5 +54,15 @@ module.exports.postWeather = function() {
             connection.query(query, [weather], function (error, results, fields) {
                 if (error) throw error;
             });
+            let options={
+                retain:true,
+                qos:1};
+            if (client.connected == true){
+                client.publish('weather_temp', temp.toString(), options);
+                client.publish('weather_temp_min', temp_min, options);
+                client.publish('weather_temp_max',  temp_max.toString(), options);
+                client.publish('weather_temp_feels', temp_feel.toString(), options);
+                client.publish('weather_humidity', res.body.main.humidity.toString(), options);
+            }
         });
 };

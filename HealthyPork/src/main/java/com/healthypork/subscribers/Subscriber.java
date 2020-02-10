@@ -1,4 +1,4 @@
-package com.healthypork.mqtt;
+package com.healthypork.subscribers;
 
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
@@ -8,9 +8,6 @@ import com.espertech.esper.client.EPServiceProviderManager;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A sample application that demonstrates how to use the Paho MQTT v3.1 Client blocking API.
@@ -50,7 +47,8 @@ public class Subscriber implements MqttCallback {
         this.client.subscribe(this.topic, qos);
     }
 
-    private String[] getAuth(URI uri) {
+    @SuppressWarnings("unused")
+	private String[] getAuth(URI uri) {
         String a = uri.getAuthority();
         String[] first = a.split("@");
         return first[0].split(":");
@@ -88,9 +86,4 @@ public class Subscriber implements MqttCallback {
 		
     }
 
-    public static void main(String[] args) throws MqttException, URISyntaxException {
-        Subscriber s = new Subscriber(System.getenv("CLOUDMQTT_URL"));
-        s.sendMessage("Hello");
-        s.sendMessage("Hello 2");
-    }
 }

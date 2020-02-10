@@ -1,4 +1,4 @@
-package com.healthypork.mqtt;
+package com.healthypork.main;
 
 import java.io.IOException;
 import java.net.URI;
@@ -8,6 +8,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 
 import com.espertech.esper.client.deploy.DeploymentException;
 import com.espertech.esper.client.deploy.ParseException;
+import com.healthypork.subscribers.Subscriber;
 import com.healthypork.utils.PatternDetector;
 
 public class HealthyPorkMain {

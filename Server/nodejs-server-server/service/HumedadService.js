@@ -103,18 +103,19 @@ module.exports.postHumidity = function(req, res, next) {
     });
     let options={
         retain:true,
-        qos:0};
+        qos:1};
     if (client.connected == true){
+        /*
         client.on('message', function (topic, message) {
             // message is Buffer
             console.log(message.toString())
         })
-        client.subscribe('temperature', function (err) {
+        client.subscribe('humidity', function (err) {
             if (!err) {
-              client.publish('temperature', req.undefined.originalValue.amount.toString(), options);
-            }
-        })
-
+        */
+              client.publish('humidity', req.undefined.originalValue.amount.toString(), options);
+            //}
+        //})
     }
 };
 

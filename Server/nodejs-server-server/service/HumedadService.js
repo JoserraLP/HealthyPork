@@ -10,6 +10,31 @@ var connection = mysql.createConnection({
 connection.connect();
 
 
+var options = {
+    clientId: 'mqtthp'
+}
+
+var mqtt = require('mqtt');
+var client = mqtt.connect('mqtt://localhost:1883', options);
+
+/**
+ * MQTT
+ */
+client.on('connect', function(){
+    console.log('Succesfull connected to MQTT');
+});
+
+client.on('error', function(error){
+    console.log('Error, cannot connect to MQTT ' + error);
+});
+
+
+
+
+/**
+ * MySQL
+ */
+
 /**
  * Eliminado de datos de humedad.
  * Eliminado un dato de humedad en la base de datos.
@@ -76,6 +101,21 @@ module.exports.postHumidity = function(req, res, next) {
             message: results
         });
     });
+    let options={
+        retain:true,
+        qos:0};
+    if (client.connected == true){
+        client.on('message', function (topic, message) {
+            // message is Buffer
+            console.log(message.toString())
+        })
+        client.subscribe('temperature', function (err) {
+            if (!err) {
+              client.publish('temperature', req.undefined.originalValue.amount.toString(), options);
+            }
+        })
+
+    }
 };
 
 

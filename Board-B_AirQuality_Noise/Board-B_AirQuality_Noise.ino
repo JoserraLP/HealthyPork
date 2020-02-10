@@ -8,7 +8,7 @@ const int pinNoise = A1;
 /////// Wifi Settings ///////
 char ssid[] = "Gloin";
 char pass[] = "Gloin2014";
-const char serverAddress[] = "192.168.0.103";  // server address
+const char serverAddress[] = "192.168.0.106";  // server address
 int port = 8080;
 WiFiClient wifi;
 HttpClient client = HttpClient(wifi, serverAddress, port);

@@ -1,0 +1,13 @@
+com\espertech\esper\example\models\Luminosity.class
+com\espertech\esper\example\models\Noise.class
+com\espertech\esper\example\utils\Constants.class
+com\espertech\esper\example\models\Humidity.class
+com\espertech\esper\example\utils\PatternDetector.class
+com\espertech\esper\example\mqtt\Subscriber.class
+com\espertech\esper\example\db\DBConn.class
+com\espertech\esper\example\models\Temperature.class
+com\espertech\esper\example\models\Weather.class
+com\espertech\esper\example\mqtt\HealthyPorkMain.class
+com\healthypork\listeners\EsperStatementSubscriber.class
+com\espertech\esper\example\db\DBConstants.class
+com\espertech\esper\example\models\AirQuality.class

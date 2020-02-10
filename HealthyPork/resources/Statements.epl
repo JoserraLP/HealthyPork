@@ -1,0 +1,29 @@
+module Stamenents;
+create objectarray schema luminosity(val double,ts long) starttimestamp ts endtimestamp ts;
+create objectarray schema temperature(val double,ts long) starttimestamp ts endtimestamp ts;
+create objectarray schema humidity(val double,ts long) starttimestamp ts endtimestamp ts;
+create objectarray schema airquality(val double,ts long) starttimestamp ts endtimestamp ts;
+create objectarray schema noise(val double,ts long) starttimestamp ts endtimestamp ts;
+create objectarray schema weather_temp(val double,ts long) starttimestamp ts endtimestamp ts;
+create objectarray schema weather_temp_min(val double,ts long) starttimestamp ts endtimestamp ts;
+create objectarray schema weather_temp_max(val double,ts long) starttimestamp ts endtimestamp ts;
+create objectarray schema weather_temp_feels(val double,ts long) starttimestamp ts endtimestamp ts;
+create objectarray schema weather_humidity(val double,ts long) starttimestamp ts endtimestamp ts;
+
+INSERT INTO Observations
+SELECT 'o1' as val
+FROM pattern [ every ( luminosity(val > 90.0) ) ];
+	
+INSERT INTO Observations
+SELECT 'o2' as val
+FROM pattern [ every ( weather_temp_feels(val < 10.0) ) ];
+
+INSERT INTO Observations
+SELECT 'o3' as val
+FROM pattern [ every ( temperature(val < 100.0) ) ];
+	
+
+@Name('Observations')
+SELECT val
+FROM Observations;
+

@@ -16,6 +16,7 @@ public class HealthyPorkMain {
 	public static void main(String[] args) throws IOException, ParseException, DeploymentException,
 	InterruptedException, ClassNotFoundException {
 		HealthyPorkMain test = new HealthyPorkMain();
+		
 		PatternDetector pd = new PatternDetector("resources/Statements.epl");
 		pd.start();
 		try {

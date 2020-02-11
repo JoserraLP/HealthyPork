@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script src="https://scadavis.io/synoptic/synopticapi.js"></script>
+<title>Healthy Pork</title>
+</head>
+<body>
+	<h1>Healthy Pork</h1>
+
+	<script>
+		// create a new graphic
+		var svgraph = new scadavis(
+				{
+					svgurl : "https://raw.githubusercontent.com/riclolsen/displayfiles/master/donut.svg"
+				});
+		// update value in the graphic at each 3 seconds
+		setInterval(function() {
+			svgraph.setValue("TAG1", Math.random() * 100);
+			if (svgraph.getValue("TAG1") >= 75)
+				svgraph.setValue("TAG2", "alarmed!");
+			else
+				svgraph.setValue("TAG2", "normal");
+		}, 3000);
+	</script>
+
+</body>
+</html>

@@ -11,8 +11,27 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
+var options = {
+    clientId: 'mqtthp'
+}
+
+var mqtt = require('mqtt');
+var client = mqtt.connect('mqtt://localhost:1883', options);
+
+/**
+ * MQTT
+ */
+client.on('connect', function () {
+    console.log('Succesfull connected to MQTT');
+});
+
+client.on('error', function (error) {
+    console.log('Error, cannot connect to MQTT ' + error);
+});
+
+
 function calculateSeason(date) {
-    var month = date.getMonth()+1;
+    var month = date.getMonth() + 1;
     if (month > 2 && month < 6)
         return 'Spring';
     else if (month > 5 && month < 9)
@@ -27,12 +46,17 @@ function calculateCelsius(tempk) {
     return Number(((tempk - 273.15).toFixed(2)));
 }
 
-module.exports.postWeather = function() {
+module.exports.postWeather = function () {
     superagent
         .get('https://api.openweathermap.org/data/2.5/weather')
-        .query({lat: 39.4789255, lon: -6.3423358, APPID: '0b1e5f660c2801400ed549b858907691'})
+        .query({ lat: 39.4789255, lon: -6.3423358, APPID: '0b1e5f660c2801400ed549b858907691' })
         .end((err, res) => {
-            if (err) { return console.log(err);}
+            if (err) { return console.log(err); }
+
+            /**
+             * MySQL
+             */
+
             var date = new Date();
             var query = 'INSERT INTO weather SET ?';
             let temp = calculateCelsius(res.body.main.temp);
@@ -54,15 +78,29 @@ module.exports.postWeather = function() {
             connection.query(query, [weather], function (error, results, fields) {
                 if (error) throw error;
             });
-            let options={
-                retain:true,
-                qos:1};
-            if (client.connected == true){
-                client.publish('weather_temp', temp.toString(), options);
-                client.publish('weather_temp_min', temp_min, options);
-                client.publish('weather_temp_max',  temp_max.toString(), options);
-                client.publish('weather_temp_feels', temp_feel.toString(), options);
-                client.publish('weather_humidity', res.body.main.humidity.toString(), options);
-            }
+
+            /**
+    * MQTT
+    */
+
+            client.on('connect', function () {
+                console.log('Succesfull connected to MQTT');
+
+                let options = {
+                    retain: true,
+                    qos: 1
+                };
+                if (client.connected == true) {
+                    client.publish('weather_temp', temp.toString(), options);
+                    client.publish('weather_temp_min', temp_min.toString(), options);
+                    client.publish('weather_temp_max', temp_max.toString(), options);
+                    client.publish('weather_temp_feels', temp_feel.toString(), options);
+                    client.publish('weather_humidity', res.body.main.humidity.toString(), options);
+                }
+            });
+
+            client.on('error', function (error) {
+                console.log('Error, cannot connect to MQTT ' + error);
+            });
         });
 };

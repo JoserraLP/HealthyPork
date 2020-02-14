@@ -9,6 +9,13 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
+var options = {
+    clientId: 'mqtthp'
+}
+
+var mqtt = require('mqtt');
+var client = mqtt.connect('mqtt://localhost:1883', options);
+
 /**
  * Eliminado de datos de temperatura.
  * Eliminado un dato de temperatura en la base de datos.
@@ -16,7 +23,7 @@ connection.connect();
  * idTemperature Integer Id del dato de temperatura
  * returns String
  **/
-module.exports.deleteTemperature = function(req, res, next) {
+module.exports.deleteTemperature = function (req, res, next) {
     //Parameters
     console.log("Mostramos peticion", req);
     var query = "DELETE FROM Temperature WHERE id = " + req.idTemperature.originalValue
@@ -37,7 +44,7 @@ module.exports.deleteTemperature = function(req, res, next) {
  * date String Fecha de la recogida de la información
  * returns String
  **/
-module.exports.getTemperature = function(req, res, next) {
+module.exports.getTemperature = function (req, res, next) {
     //Parameters
     console.log(req.date.originalValue);
     var query = "SELECT * FROM Temperature WHERE date = '" + req.date.originalValue + "'"
@@ -58,12 +65,17 @@ module.exports.getTemperature = function(req, res, next) {
  * temperature Temperature 
  * returns String
  **/
-module.exports.postTemperature = function(req, res, next) {
+module.exports.postTemperature = function (req, res, next) {
     //Parameters
+
+    /**
+     * MySQL
+     */
+
     console.log(req.undefined.originalValue.amount);
     var query = 'INSERT INTO Temperature SET ?'
     var date = new Date();
-    
+
     var data = {
         amount: Number((req.undefined.originalValue.amount).toFixed(2)),
         date: date
@@ -75,22 +87,26 @@ module.exports.postTemperature = function(req, res, next) {
             message: results
         });
     });
-    let options={
-        retain:true,
-        qos:1};
-    if (client.connected == true){
-        /*
-        client.on('message', function (topic, message) {
-            // message is Buffer
-            console.log(message.toString())
-        })
-        client.subscribe('temperature', function (err) {
-            if (!err) {
-        */
-              client.publish('temperature', req.undefined.originalValue.amount.toString(), options);
-            //}
-        //})
-    }
+
+    /**
+    * MQTT
+    */
+
+    client.on('connect', function () {
+        console.log('Succesfull connected to MQTT');
+
+        let options = {
+            retain: true,
+            qos: 1
+        };
+        if (client.connected == true) {
+            client.publish('temperature', req.undefined.originalValue.amount.toString(), options);
+        }
+    });
+
+    client.on('error', function (error) {
+        console.log('Error, cannot connect to MQTT ' + error);
+    });
 };
 
 
@@ -101,7 +117,7 @@ module.exports.postTemperature = function(req, res, next) {
  * temperature Temperature 
  * returns String
  **/
-module.exports.putTemperature = function(req, res, next) {
+module.exports.putTemperature = function (req, res, next) {
     //Parameters
     console.log(req);
     var query = 'UPDATE Temperature SET ? WHERE id = ' + req.undefined.originalValue.idTemperature

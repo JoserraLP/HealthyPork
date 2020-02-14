@@ -9,6 +9,15 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
+
+var options = {
+    clientId: 'mqtthp'
+}
+
+var mqtt = require('mqtt');
+var client = mqtt.connect('mqtt://localhost:1883', options);
+
+
 /**
  * Eliminado de datos de la calidad del aire.
  * Eliminado un dato de la calidad del aire guardado en la base de datos.
@@ -16,7 +25,7 @@ connection.connect();
  * idAirQuality Integer Id de la calidad del aire
  * returns String
  **/
-module.exports.deleteAirQuality = function(req, res, next) {
+module.exports.deleteAirQuality = function (req, res, next) {
     //Parameters
     console.log("Mostramos peticion", req);
     var query = "DELETE FROM airquality WHERE id = " + req.idAirQuality.originalValue
@@ -37,7 +46,7 @@ module.exports.deleteAirQuality = function(req, res, next) {
  * date String Fecha de la recogida de la información
  * returns String
  **/
-module.exports.getAirQuality = function(req, res, next) {
+module.exports.getAirQuality = function (req, res, next) {
     //Parameters
     console.log(req.date.originalValue);
     var query = "SELECT * FROM AirQuality WHERE date = '" + req.date.originalValue + "'"
@@ -58,12 +67,17 @@ module.exports.getAirQuality = function(req, res, next) {
  * airQuality AirQuality 
  * returns String
  **/
-module.exports.postAirQuality = function(req, res, next) {
+module.exports.postAirQuality = function (req, res, next) {
     //Parameters
+
+    /**
+     * MySQL
+     */
+
     console.log(req.undefined.originalValue.amount);
     var query = 'INSERT INTO AirQuality SET ?'
     var date = new Date();
-    
+
     var data = {
         amount: req.undefined.originalValue.amount,
         date: date
@@ -75,22 +89,26 @@ module.exports.postAirQuality = function(req, res, next) {
             message: results
         });
     });
-    let options={
-        retain:true,
-        qos:1};
-    if (client.connected == true){
-        /*
-        client.on('message', function (topic, message) {
-            // message is Buffer
-            console.log(message.toString())
-        })
-        client.subscribe('airquality', function (err) {
-            if (!err) {
-        */
-              client.publish('airquality', req.undefined.originalValue.amount.toString(), options);
-            //}
-        //})
-    }
+
+    /**
+    * MQTT
+    */
+
+    client.on('connect', function () {
+        console.log('Succesfull connected to MQTT');
+
+        let options = {
+            retain: true,
+            qos: 1
+        };
+        if (client.connected == true) {
+            client.publish('airquality', req.undefined.originalValue.amount.toString(), options);
+        }
+    });
+
+    client.on('error', function (error) {
+        console.log('Error, cannot connect to MQTT ' + error);
+    });
 };
 
 
@@ -101,7 +119,7 @@ module.exports.postAirQuality = function(req, res, next) {
  * airQuality AirQuality 
  * returns String
  **/
-module.exports.putAirQuality = function(req, res, next) {
+module.exports.putAirQuality = function (req, res, next) {
     //Parameters
     console.log(req);
     var query = 'UPDATE AirQuality SET ? WHERE id = ' + req.undefined.originalValue.idAirQuality

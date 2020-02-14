@@ -3,9 +3,12 @@ package com.healthypork.utils;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.paho.client.mqttv3.MqttException;
+
 import com.espertech.esper.client.EPAdministrator;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPServiceProviderManager;
+import com.espertech.esper.client.EPSubscriberException;
 import com.espertech.esper.client.deploy.DeploymentException;
 import com.espertech.esper.client.deploy.DeploymentOptions;
 import com.espertech.esper.client.deploy.EPDeploymentAdmin;
@@ -27,7 +30,7 @@ public class PatternDetector {
 		engine = EPServiceProviderManager.getDefaultProvider();
 	}
 	
-	public void start() throws IOException, ParseException, DeploymentException, InterruptedException {
+	public void start() throws IOException, ParseException, DeploymentException, InterruptedException, EPSubscriberException, MqttException {
 		if(!started) {
 			deployAdmin = engine.getEPAdministrator().getDeploymentAdmin();
 			module = deployAdmin.read(new File(this.modulePath));			
@@ -46,7 +49,7 @@ public class PatternDetector {
 		
 	}	
 		
-	private void setSubsForCEPObservations() {
+	private void setSubsForCEPObservations() throws EPSubscriberException, MqttException {
 		EPAdministrator epAdmin = engine.getEPAdministrator();
 		String[] statements = epAdmin.getStatementNames();
 				

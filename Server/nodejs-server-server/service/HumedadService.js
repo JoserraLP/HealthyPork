@@ -9,31 +9,12 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
-
 var options = {
     clientId: 'mqtthp'
 }
 
 var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://localhost:1883', options);
-
-/**
- * MQTT
- */
-client.on('connect', function(){
-    console.log('Succesfull connected to MQTT');
-});
-
-client.on('error', function(error){
-    console.log('Error, cannot connect to MQTT ' + error);
-});
-
-
-
-
-/**
- * MySQL
- */
 
 /**
  * Eliminado de datos de humedad.
@@ -86,6 +67,11 @@ module.exports.getHumidity = function(req, res, next) {
  **/
 module.exports.postHumidity = function(req, res, next) {
     //Parameters
+
+    /**
+     * MySQL
+     */
+
     console.log(req.undefined.originalValue.amount);
     var query = 'INSERT INTO Humidity SET ?'
     var date = new Date();
@@ -101,22 +87,26 @@ module.exports.postHumidity = function(req, res, next) {
             message: results
         });
     });
-    let options={
-        retain:true,
-        qos:1};
-    if (client.connected == true){
-        /*
-        client.on('message', function (topic, message) {
-            // message is Buffer
-            console.log(message.toString())
-        })
-        client.subscribe('humidity', function (err) {
-            if (!err) {
-        */
-              client.publish('humidity', req.undefined.originalValue.amount.toString(), options);
-            //}
-        //})
-    }
+
+        /**
+    * MQTT
+    */
+
+    client.on('connect', function () {
+        console.log('Succesfull connected to MQTT');
+
+        let options = {
+            retain: true,
+            qos: 1
+        };
+        if (client.connected == true) {
+            client.publish('humidity', req.undefined.originalValue.amount.toString(), options);
+        }
+    });
+
+    client.on('error', function (error) {
+        console.log('Error, cannot connect to MQTT ' + error);
+    });
 };
 
 

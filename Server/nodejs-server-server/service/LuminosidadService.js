@@ -9,6 +9,13 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
+var options = {
+    clientId: 'mqtthp'
+}
+
+var mqtt = require('mqtt');
+var client = mqtt.connect('mqtt://localhost:1883', options);
+
 /**
  * Eliminado de datos de luminosidad.
  * Eliminado un dato de luminosidad en la base de datos.
@@ -60,10 +67,15 @@ module.exports.getLuminosity = function (req, res, next) {
  **/
 module.exports.postLuminosity = function (req, res, next) {
     //Parameters
+
+    /**
+     * MySQL
+     */
+
     console.log(req.undefined.originalValue.amount);
     var query = 'INSERT INTO Luminosity SET ?'
     var date = new Date();
-    
+
     var data = {
         amount: req.undefined.originalValue.amount,
         date: date
@@ -75,22 +87,26 @@ module.exports.postLuminosity = function (req, res, next) {
             message: results
         });
     });
-    let options={
-        retain:true,
-        qos:1};
-    if (client.connected == true){
-        /*
-        client.on('message', function (topic, message) {
-            // message is Buffer
-            console.log(message.toString())
-        })
-        client.subscribe('luminosity', function (err) {
-            if (!err) {
-        */
-              client.publish('luminosity', req.undefined.originalValue.amount.toString(), options);
-            //}
-        //})
-    }
+
+    /**
+    * MQTT
+    */
+
+    client.on('connect', function () {
+        console.log('Succesfull connected to MQTT');
+
+        let options = {
+            retain: true,
+            qos: 1
+        };
+        if (client.connected == true) {
+            client.publish('luminosity', req.undefined.originalValue.amount.toString(), options);
+        }
+    });
+
+    client.on('error', function (error) {
+        console.log('Error, cannot connect to MQTT ' + error);
+    });
 };
 
 

@@ -21,6 +21,10 @@ FROM pattern [ every ( weather_temp_feels(val < 10.0) ) ];
 INSERT INTO Observations
 SELECT 'o3' as val
 FROM pattern [ every ( temperature(val < 100.0) ) ];
+
+INSERT INTO Observations
+SELECT 'o4' as val
+FROM pattern [ every ( airquality(val > 100.0) ) ];
 	
 
 @Name('Observations')

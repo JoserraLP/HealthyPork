@@ -6621,17 +6621,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.9899495"
-     inkscape:cx="1073.3703"
-     inkscape:cy="622.44525"
+     inkscape:zoom="7.919596"
+     inkscape:cx="439.71955"
+     inkscape:cy="1130.9256"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
+     inkscape:window-width="724"
+     inkscape:window-height="405"
+     inkscape:window-x="642"
+     inkscape:window-y="181"
+     inkscape:window-maximized="0"
      inkscape:snap-global="false" />
   <metadata
      id="metadata7">
@@ -6666,7 +6666,7 @@
        height="171.14285"
        width="194.71428"
        transform="rotate(-90)"
-       inkscape:label="window_1" />
+       inkscape:label="{&quot;attr&quot;:&quot;get&quot;,&quot;tag&quot;:&quot;window_1&quot;}" />
     <image
        y="-2014.1428"
        x="661.21429"
@@ -6807,6 +6807,21 @@
        width="69"
        inkscape:label="sprinkler_2"
        transform="scale(-1)" />
+    <rect
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-opacity:1"
+       id="rect5925"
+       width="88.893425"
+       height="61.619305"
+       x="426.28436"
+       y="317.11139" />
+    <rect
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-opacity:1"
+       id="rect5927"
+       width="190.91882"
+       height="86.873116"
+       x="355.5737"
+       y="322.16214"
+       ry="43.436558" />
   </g>
   <g
      inkscape:label="Layer 1"
@@ -7362,5 +7377,11 @@
        d="M 1222.141,151.11592 V -39.213321"
        id="path2361-9"
        inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 381.83766,-152.7498 h 165.66501 v 65.65992 H 379.81735 Z"
+       id="path5929"
+       inkscape:connector-curvature="0"
+       inkscape:label="{&quot;attr&quot;:&quot;color&quot;,&quot;tag&quot;:&quot;rect_1&quot;, &quot;script&quot;: &quot;$W.LoadImage(thisobj, 'C:\Users\jose_\Downloads\icons8-window-closed-64.png');&quot;}" />
   </g>
 </svg>

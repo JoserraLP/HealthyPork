@@ -6621,9 +6621,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="537.82399"
-     inkscape:cy="824.95983"
+     inkscape:zoom="0.9899495"
+     inkscape:cx="1073.3703"
+     inkscape:cy="622.44525"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
@@ -6666,7 +6666,7 @@
        height="171.14285"
        width="194.71428"
        transform="rotate(-90)"
-       inkscape:label="{&quot;attr&quot;:&quot;get&quot;,&quot;tag&quot;:&quot;window_1&quot;}" />
+       inkscape:label="window_1" />
     <image
        y="-2014.1428"
        x="661.21429"

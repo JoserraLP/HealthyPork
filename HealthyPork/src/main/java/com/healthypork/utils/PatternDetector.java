@@ -23,7 +23,6 @@ public class PatternDetector {
 	private String modulePath;	
 	EPDeploymentAdmin deployAdmin;
 	private boolean started=false;
-	private boolean receiving=false;
 
 	public PatternDetector(String modulePath) {
 		this.modulePath = modulePath;		

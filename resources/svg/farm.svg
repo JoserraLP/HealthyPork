@@ -6638,9 +6638,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.24748738"
-     inkscape:cx="2400.3284"
-     inkscape:cy="533.39681"
+     inkscape:zoom="0.70000001"
+     inkscape:cx="1336.5812"
+     inkscape:cy="687.41572"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="true"
@@ -6768,13 +6768,14 @@
        y="322.16214"
        ry="43.436558" />
     <rect
-       style="fill:#040404;fill-opacity:0.66137564;fill-rule:nonzero;stroke:#000000;stroke-width:0.68445653;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect7399"
+       style="fill:#040404;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.68445653;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="window_1"
        width="195.19456"
        height="47.459972"
        x="659.76965"
        y="-579.55444"
-       transform="rotate(90)" />
+       transform="rotate(90)"
+       inkscape:label="{&quot;attr&quot;:&quot;color&quot;,&quot;list&quot;:[{&quot;data&quot;:&quot;0&quot;,&quot;param&quot;:&quot;black|none&quot;,&quot;tag&quot;:&quot;window_1&quot;},{&quot;data&quot;:&quot;1&quot;,&quot;param&quot;:&quot;green|none&quot;,&quot;tag&quot;:&quot;window_1&quot;}]},{&quot;attr&quot;:&quot;get&quot;,&quot;tag&quot;:&quot;window_1&quot;,&quot;type&quot;:&quot;Good&quot;}" />
     <rect
        style="fill:#040404;fill-opacity:0.66137564;fill-rule:nonzero;stroke:#000000;stroke-width:0.68445653;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect7399-8"

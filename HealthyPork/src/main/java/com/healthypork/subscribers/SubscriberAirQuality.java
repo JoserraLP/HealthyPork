@@ -6,25 +6,8 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import com.espertech.esper.client.EPRuntime;
 import com.espertech.esper.client.EPServiceProviderManager;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.Principal;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * A sample application that demonstrates how to use the Paho MQTT v3.1 Client blocking API.
@@ -45,7 +28,7 @@ public class SubscriberAirQuality implements MqttCallback{
 		String host = String.format("tcp://%s:%d", uri.getHost(), uri.getPort());
 		String username = "root";
 		String password = "root";
-		String clientId = "MQTT-HP";
+		String clientId = "MQTT-HP-AirQuality";
 		runtimeEngine = EPServiceProviderManager.getDefaultProvider().getEPRuntime();		
 		if (!uri.getPath().isEmpty()) {
 			this.topic = uri.getPath().substring(1);

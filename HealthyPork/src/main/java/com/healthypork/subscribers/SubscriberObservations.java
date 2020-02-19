@@ -29,7 +29,7 @@ public class SubscriberObservations implements MqttCallback {
         //String[] auth = this.getAuth(uri);
         String username = "root";
         String password = "root";
-        String clientId = "MQTT-Java-Example";
+        String clientId = "MQTT-Java-Example-Observation";
         runtimeEngine = EPServiceProviderManager.getDefaultProvider().getEPRuntime();		
         if (!uri.getPath().isEmpty()) {
             this.topic = uri.getPath().substring(1);

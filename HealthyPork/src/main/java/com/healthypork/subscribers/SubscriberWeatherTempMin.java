@@ -28,7 +28,7 @@ public class SubscriberWeatherTempMin implements MqttCallback {
         String host = String.format("tcp://%s:%d", uri.getHost(), uri.getPort());
         String username = "root";
         String password = "root";
-        String clientId = "MQTT-HP";
+        String clientId = "MQTT-HP-WeatherTempMin";
         runtimeEngine = EPServiceProviderManager.getDefaultProvider().getEPRuntime();		
         if (!uri.getPath().isEmpty()) {
             this.topic = uri.getPath().substring(1);

@@ -1,0 +1,171 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}HealthyPork synoptic{% endblock %}
+
+{% block styles %}
+{{ super() }}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://scadavis.io/synoptic/synopticapi.js"></script>
+<script>
+
+  var svgraph_farm = new scadavis(
+    {
+      container: 'mainbody',
+      iframeparams: 'frameborder="2" height="3000" width="3000"',
+      svgurl: "https://raw.githubusercontent.com/JoserraLP/HealthyPork/master/Synoptic/resources/svg/farm.svg"
+    });
+
+  // Set initial state
+  svgraph_farm.setValue("window_1", 0);
+  svgraph_farm.setValue("window_2", 0);
+  svgraph_farm.setValue("window_3", 0);
+  svgraph_farm.setValue("window_4", 0);
+  svgraph_farm.setValue("sprinkler_1", 0);
+  svgraph_farm.setValue("sprinkler_2", 0);
+  svgraph_farm.setValue("heater_1", 0);
+  svgraph_farm.setValue("heater_2", 0);
+  svgraph_farm.setValue("heater_3", 0);
+  svgraph_farm.setValue("heater_4", 0);
+  svgraph_farm.setValue("heater_5", 0);
+  svgraph_farm.setValue("heater_6", 0);
+  svgraph_farm.setValue("bulb_1", 0);
+  svgraph_farm.setValue("bulb_2", 0);
+  svgraph_farm.setValue("bulb_3", 0);
+  svgraph_farm.setValue("fan_1", 0);
+  svgraph_farm.setValue("fan_2", 0);
+
+  // update value in the synoptic each second
+  setInterval(function () {
+    svgraph_farm.storeValue("value_1", document.getElementById("airquality").value);
+    svgraph_farm.storeValue("text_1", "Air Quality");
+    svgraph_farm.storeValue("value_2", document.getElementById("noise").value);
+    svgraph_farm.storeValue("text_2", "Noise");
+    svgraph_farm.storeValue("value_3", document.getElementById("luminosity").value);
+    svgraph_farm.storeValue("text_3", "Luminosity");
+    svgraph_farm.storeValue("value_4", document.getElementById("humidity").value);
+    svgraph_farm.storeValue("text_4", "Humidity");
+    svgraph_farm.storeValue("value_5", document.getElementById("temperature").value);
+    svgraph_farm.storeValue("text_5", "Temperature");
+    svgraph_farm.storeValue("value_6", document.getElementById("weather_temp").value);
+    svgraph_farm.storeValue("text_6", "API Temp");
+    svgraph_farm.storeValue("value_7", document.getElementById("weather_temp_min").value);
+    svgraph_farm.storeValue("text_7", "API Temp min");
+    svgraph_farm.storeValue("value_8", document.getElementById("weather_temp_max").value);
+    svgraph_farm.storeValue("text_8", "API Temp max");
+    svgraph_farm.storeValue("value_9", document.getElementById("weather_temp_feels").value);
+    svgraph_farm.storeValue("text_9", "API Temps feels");
+    svgraph_farm.storeValue("value_10", document.getElementById("weather_humidity").value);
+    svgraph_farm.storeValue("text_10", "API Humidity");
+  
+    svgraph_farm.storeValue("text_11", "Window");
+    svgraph_farm.storeValue("text_12", "Sprinkler");
+    svgraph_farm.storeValue("text_13", "Heater");
+    svgraph_farm.storeValue("text_14", "Light");
+    svgraph_farm.storeValue("text_15", "Fan");
+    
+    // Get current values from Mosquitto
+    
+    if (svgraph_farm.getValue("window_1") === 0) {
+      svgraph_farm.storeValue("value_11", "Open");
+      svgraph_farm.storeValue("window_1", 1);
+      svgraph_farm.storeValue("window_2", 1);
+      svgraph_farm.storeValue("window_3", 1);
+      svgraph_farm.storeValue("window_4", 1);
+    }
+    else if (svgraph_farm.getValue("window_1") === 1) {
+      svgraph_farm.storeValue("value_11", "Closed");
+      svgraph_farm.storeValue("window_1", 0);
+      svgraph_farm.storeValue("window_2", 0);
+      svgraph_farm.storeValue("window_3", 0);
+      svgraph_farm.storeValue("window_4", 0);
+    }
+    if (svgraph_farm.getValue("sprinkler_1") === 0) {
+      svgraph_farm.storeValue("value_12", "On");
+      svgraph_farm.storeValue("sprinkler_1", 1);
+      svgraph_farm.storeValue("sprinkler_2", 1);
+    }
+    else if (svgraph_farm.getValue("sprinkler_1") === 1) {
+      svgraph_farm.storeValue("value_12", "Off");
+      svgraph_farm.storeValue("sprinkler_1", 0);
+      svgraph_farm.storeValue("sprinkler_2", 0);
+    }
+    if (svgraph_farm.getValue("heater_1") === 0) {
+      svgraph_farm.storeValue("value_13", "On");
+      svgraph_farm.storeValue("heater_1", 1);
+      svgraph_farm.storeValue("heater_2", 1);
+      svgraph_farm.storeValue("heater_3", 1);
+      svgraph_farm.storeValue("heater_4", 1);
+      svgraph_farm.storeValue("heater_5", 1);
+      svgraph_farm.storeValue("heater_6", 1);
+    }
+    else if (svgraph_farm.getValue("heater_1") === 1) {
+      svgraph_farm.storeValue("value_13", "Off");
+      svgraph_farm.storeValue("heater_1", 0);
+      svgraph_farm.storeValue("heater_2", 0);
+      svgraph_farm.storeValue("heater_3", 0);
+      svgraph_farm.storeValue("heater_4", 0);
+      svgraph_farm.storeValue("heater_5", 0);
+      svgraph_farm.storeValue("heater_6", 0);
+    }
+    if (svgraph_farm.getValue("bulb_1") === 0) {
+      svgraph_farm.storeValue("value_14", "On");
+      svgraph_farm.storeValue("bulb_1", 1);
+      svgraph_farm.storeValue("bulb_2", 1);
+      svgraph_farm.storeValue("bulb_3", 1);
+    }
+    else if (svgraph_farm.getValue("bulb_1") === 1) {
+      svgraph_farm.storeValue("value_14", "Off");
+      svgraph_farm.storeValue("bulb_1", 0);
+      svgraph_farm.storeValue("bulb_2", 0);
+      svgraph_farm.storeValue("bulb_3", 0);
+    }
+    if (svgraph_farm.getValue("fan_1") === 0) {
+      svgraph_farm.storeValue("value_15", "On");
+      svgraph_farm.storeValue("fan_1", 1);
+      svgraph_farm.storeValue("fan_2", 1);
+    }
+    else if (svgraph_farm.getValue("fan_1") === 1) {
+      svgraph_farm.storeValue("value_15", "Off");
+      svgraph_farm.storeValue("fan_1", 0);
+      svgraph_farm.storeValue("fan_2", 0);
+    }
+    
+    svgraph_farm.updateValues();
+  }, 1000);
+
+  $(document).ready(function () {
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    socket.emit('subscribe_all');
+
+    socket.on('mqtt_message', function (data) {
+      document.getElementById(data['topic']).value = data['payload'];
+    })
+
+  });
+
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid" id="mainbody">
+  <input id="airquality" type="number" hidden="true"></input>
+  <input id="noise" type="number" hidden="true"></input>
+  <input id="luminosity" type="number" hidden="true"></input>
+  <input id="humidity" type="number" hidden="true"></input>
+  <input id="temperature" type="number" hidden="true"></input>
+  <input id="weather_temp" type="number" hidden="true"></input>
+  <input id="weather_temp_min" type="number" hidden="true"></input>
+  <input id="weather_temp_max" type="number" hidden="true"></input>
+  <input id="weather_temp_feels" type="number" hidden="true"></input>
+  <input id="weather_humidity" type="number" hidden="true"></input>
+  <input id="observation_1" type="number" hidden="true"></input>
+  <input id="observation_2" type="number" hidden="true"></input>
+  <input id="observation_3" type="number" hidden="true"></input>
+  <input id="observation_4" type="number" hidden="true"></input>
+  <input id="observation_5" type="number" hidden="true"></input> 
+</div>
+{% endblock %}

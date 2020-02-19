@@ -1,19 +1,38 @@
 @echo off
 
+:: change to current directory
 cd %cd%
 
-set EXEC_MOSQUITTO="D:\Program Files\mosquitto\mosquitto.exe"
+:: ------ MOSQUITTO ------
+:: set the mosquitto directory 
+set EXEC_MOSQUITTO="%MOSQUITTO_DIR%\mosquitto.exe"
 
-:: set MEMORY_OPTIONS=-Xms256m
-
-:: set SOURCEPATH=..\HealthyPork\src\main\java
-
-:: set TARGETPATH=..\HealthyPork\target\classes
-
-:: "%JAVA_HOME%"\bin\javac -d %TARGETPATH% -source 1.8 -sourcepath %SOURCEPATH% %SOURCEPATH%\com\healthypork\main\HealthyPorkMain.java
-
+:: start process "mosquitto.exe"
 START "" %EXEC_MOSQUITTO%
 
-:: "%JAVA_HOME%"\bin\java %MEMORY_OPTIONS% com.healthypork.main.HealthyPorkMain
+:: ------ API ------
+:: change to API directory
+cd API
 
-pause
+:: start API in other shell
+start cmd /k node index.js
+
+:: ------ CEP ------
+:: change to CEP directory
+cd ../HealthyPork
+
+start cmd /k java -jar HealthyPork.jar
+
+:: ------ Grafana ------ 
+set GRAFANA_URL="http://localhost:3000"
+START "" %GRAFANA_URL%
+
+:: ------ Synoptic ------
+set SYNOPTIC_URL="http://localhost:5000"
+
+:: change to Synoptic directory and start Flask Synoptic in other shell
+cd ../Synoptic
+
+start cmd /k python app.py
+
+START "" %SYNOPTIC_URL%

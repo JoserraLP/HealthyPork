@@ -29,7 +29,7 @@ public class HealthyPorkMain {
 	InterruptedException, ClassNotFoundException, EPSubscriberException, MqttException {
 		HealthyPorkMain test = new HealthyPorkMain();
 		
-		PatternDetector pd = new PatternDetector("resources/Statements.epl");
+		PatternDetector pd = new PatternDetector(System.getProperty("user.dir")+"/resources/Statements.epl");
 		pd.start();
 		try {
 			SubscriberAirQuality subs_air_quality = new SubscriberAirQuality(new URI("tcp://localhost:1883"));
@@ -43,6 +43,7 @@ public class HealthyPorkMain {
 			SubscriberWeatherTempMax subs_weather_temp_max = new SubscriberWeatherTempMax(new URI("tcp://localhost:1883"));
 			SubscriberWeatherTempMin subs_weather_temp_min = new SubscriberWeatherTempMin(new URI("tcp://localhost:1883"));
 			SubscriberObservations subs_observation = new SubscriberObservations(new URI("tcp://localhost:1883"));
+			
 		} catch (MqttException | URISyntaxException e) {e.printStackTrace();}
 		synchronized (test) {
 			test.wait();

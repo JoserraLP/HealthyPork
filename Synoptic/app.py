@@ -35,6 +35,7 @@ def handle_mqtt_message(client, userdata, message):
     data = dict(
         topic = message.topic,
         payload = str(message.payload.decode('UTF-8')))
+    print(data['topic'] + '-' + data['payload'])
     socketio.emit('mqtt_message', data=data)
 
 @mqtt.on_log()

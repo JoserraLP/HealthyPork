@@ -30,9 +30,10 @@ START "" %GRAFANA_URL%
 :: ------ Synoptic ------
 set SYNOPTIC_URL="http://localhost:5000"
 
-:: change to Synoptic directory and start Flask Synoptic in other shell
+:: change to Synoptic directory
 cd ../Synoptic
 
+:: start Flask Synoptic in other shell
 start cmd /k python app.py
 
 START "" %SYNOPTIC_URL%

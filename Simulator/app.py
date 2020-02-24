@@ -3,13 +3,12 @@ from tkinter import Tk, Scale, Label, Button, CENTER, HORIZONTAL, DoubleVar, Str
 import constant as cnst
 import paho.mqtt.client as mqtt
 
-
 class Simulator:
 
     def __init__(self):
         # MQTT Client
         self.client = mqtt.Client(client_id="simulator")
-        self.client.connect("localhost")
+        self.client.connect("localhost", port=1883)
 
         # Window settings
         self.window = Tk()
@@ -125,11 +124,11 @@ class Simulator:
                             payload=self.slider_noise.get(), qos=1)
         self.client.publish(topic="airquality",
                             payload=self.slider_airquality.get(), qos=1)
-        print("Published data")
         self.client.loop()
 
     def loop(self):
         self.window.mainloop()
+
 
 if __name__ == "__main__":
     s = Simulator()

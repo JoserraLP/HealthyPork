@@ -1,4 +1,4 @@
-module Stamenents;
+module HP_Example;
 create objectarray schema luminosity(val double,ts long) starttimestamp ts endtimestamp ts;
 create objectarray schema temperature(val double,ts long) starttimestamp ts endtimestamp ts;
 create objectarray schema humidity(val double,ts long) starttimestamp ts endtimestamp ts;
@@ -11,23 +11,46 @@ create objectarray schema weather_temp_feels(val double,ts long) starttimestamp 
 create objectarray schema weather_humidity(val double,ts long) starttimestamp ts endtimestamp ts;
 
 INSERT INTO Observations
-SELECT 'o1' as val
-FROM pattern [ every ( luminosity(val > 90.0) ) ];
+SELECT 'turnOnLight' as val
+FROM pattern [ every ( luminosity(val > 40.0) ) ];
 	
 INSERT INTO Observations
-SELECT 'o2' as val
-FROM pattern [ every ( weather_temp_feels(val < 10.0) ) ];
-
+SELECT 'turnOffLight' as val
+FROM pattern [ every ( luminosity(val <= 40.0) ) ];
+	
 INSERT INTO Observations
-SELECT 'o3' as val
-FROM pattern [ every ( temperature(val < 100.0) ) ];
-
+SELECT 'turnOnFan' as val
+FROM pattern [ every ( temperature(val > 22.0) AND weather_temp(val > 22.0) AND humidity(val < 30.0) OR temperature(val > 30.0) AND noise(val > 40.0) OR temperature(val > 18.0) AND weather_temp_feels(val > 30.0) ) ];
+	
 INSERT INTO Observations
-SELECT 'o4' as val
-FROM pattern [ every ( airquality(val > 100.0) ) ];
+SELECT 'turnOffFan' as val
+FROM pattern [ every ( temperature(val <= 22.0) OR weather_temp(val <= 22.0) OR humidity(val >= 30.0) AND temperature(val <= 30.0) OR noise(val <= 40.0) AND temperature(val <= 18.0) OR weather_temp_feels(val <= 30.0) ) ];
+	
+INSERT INTO Observations
+SELECT 'turnOnSprinkler' as val
+FROM pattern [ every ( temperature(val > 22.0) AND weather_temp(val > 22.0) OR (a=temperature AND b=weather_temp_max) while(a.val > b.val) AND humidity(val < 10.0) ) ];
+	
+INSERT INTO Observations
+SELECT 'turnOffSprinkler' as val
+FROM pattern [ every ( temperature(val <= 22.0) OR weather_temp(val <= 22.0) AND (a=temperature AND b=weather_temp_max) while(a.val <= b.val) OR humidity(val >= 10.0) ) ];
+	
+INSERT INTO Observations
+SELECT 'openWindows' as val
+FROM pattern [ every ( temperature(val > 22.0) AND weather_temp(val < 22.0) OR airquality(val > 400.0) ) ];
+	
+INSERT INTO Observations
+SELECT 'closeWindows' as val
+FROM pattern [ every ( temperature(val <= 22.0) OR weather_temp(val >= 22.0) AND airquality(val <= 400.0) ) ];
+	
+INSERT INTO Observations
+SELECT 'turnOnHeating' as val
+FROM pattern [ every ( temperature(val < 22.0) OR (a=temperature AND b=weather_temp_min) while(a.val < b.val) OR temperature(val < 10.0) AND weather_temp_feels(val <= 0.0) ) ];
+	
+INSERT INTO Observations
+SELECT 'turnOffHeating' as val
+FROM pattern [ every ( temperature(val >= 22.0) AND (a=temperature AND b=weather_temp_min) while(a.val >= b.val) AND temperature(val >= 10.0) OR weather_temp_feels(val > 0.0) ) ];
 	
 
 @Name('Observations')
 SELECT val
 FROM Observations;
-

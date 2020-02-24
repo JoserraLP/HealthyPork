@@ -65,7 +65,7 @@ void calibration(int nsegs)
   //Serial.println("Response from the server");
   // Serial.println(response);
 
-  delay(1000);
+  delay(500);
 
   ////////Noise////////
 
@@ -99,7 +99,7 @@ void calibration(int nsegs)
   // Serial.println("Response from the server");
   // Serial.println(response);
 
-  delay(1000);
+  delay(500);
 }
 
 void loop()

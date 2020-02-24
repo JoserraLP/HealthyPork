@@ -20,6 +20,7 @@ import com.healthypork.subscribers.SubscriberAirQuality;
 import com.healthypork.subscribers.SubscriberHumidity;
 import com.healthypork.subscribers.SubscriberLuminosity;
 import com.healthypork.subscribers.SubscriberNoise;
+import com.healthypork.utils.Constants;
 import com.healthypork.utils.PatternDetector;
 
 public class HealthyPorkMain {
@@ -32,18 +33,17 @@ public class HealthyPorkMain {
 		PatternDetector pd = new PatternDetector(System.getProperty("user.dir")+"/resources/Statements.epl");
 		pd.start();
 		try {
-			SubscriberAirQuality subs_air_quality = new SubscriberAirQuality(new URI("tcp://localhost:1883"));
-			SubscriberHumidity subs_humidity = new SubscriberHumidity(new URI("tcp://localhost:1883"));
-			SubscriberLuminosity subs_luminosity = new SubscriberLuminosity(new URI("tcp://localhost:1883"));
-			SubscriberNoise subs_noise = new SubscriberNoise(new URI("tcp://localhost:1883"));
-			SubscriberTemperature subs_temperature = new SubscriberTemperature(new URI("tcp://localhost:1883"));
-			SubscriberWeatherHumidity subs_weather_humidity = new SubscriberWeatherHumidity(new URI("tcp://localhost:1883"));
-			SubscriberWeatherTemp subs_weather_temp = new SubscriberWeatherTemp(new URI("tcp://localhost:1883"));
-			SubscriberWeatherTempFeels subs_weather_temp_feels = new SubscriberWeatherTempFeels(new URI("tcp://localhost:1883"));
-			SubscriberWeatherTempMax subs_weather_temp_max = new SubscriberWeatherTempMax(new URI("tcp://localhost:1883"));
-			SubscriberWeatherTempMin subs_weather_temp_min = new SubscriberWeatherTempMin(new URI("tcp://localhost:1883"));
-			SubscriberObservations subs_observation = new SubscriberObservations(new URI("tcp://localhost:1883"));
-			
+			SubscriberAirQuality subs_air_quality = new SubscriberAirQuality(new URI(Constants.MQTT_URL));
+			SubscriberHumidity subs_humidity = new SubscriberHumidity(new URI(Constants.MQTT_URL));
+			SubscriberLuminosity subs_luminosity = new SubscriberLuminosity(new URI(Constants.MQTT_URL));
+			SubscriberNoise subs_noise = new SubscriberNoise(new URI(Constants.MQTT_URL));
+			SubscriberTemperature subs_temperature = new SubscriberTemperature(new URI(Constants.MQTT_URL));
+			SubscriberWeatherHumidity subs_weather_humidity = new SubscriberWeatherHumidity(new URI(Constants.MQTT_URL));
+			SubscriberWeatherTemp subs_weather_temp = new SubscriberWeatherTemp(new URI(Constants.MQTT_URL));
+			SubscriberWeatherTempFeels subs_weather_temp_feels = new SubscriberWeatherTempFeels(new URI(Constants.MQTT_URL));
+			SubscriberWeatherTempMax subs_weather_temp_max = new SubscriberWeatherTempMax(new URI(Constants.MQTT_URL));
+			SubscriberWeatherTempMin subs_weather_temp_min = new SubscriberWeatherTempMin(new URI(Constants.MQTT_URL));
+			SubscriberObservations subs_observation = new SubscriberObservations(new URI(Constants.MQTT_URL));
 		} catch (MqttException | URISyntaxException e) {e.printStackTrace();}
 		synchronized (test) {
 			test.wait();

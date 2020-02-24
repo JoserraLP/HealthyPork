@@ -93,7 +93,6 @@ module.exports.postTemperature = function (req, res, next) {
     */
 
     client.on('connect', function () {
-        console.log('Succesfull connected to MQTT');
 
         let options = {
             retain: true,

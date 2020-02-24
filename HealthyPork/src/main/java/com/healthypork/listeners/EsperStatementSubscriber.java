@@ -7,19 +7,20 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-import com.espertech.esper.client.EPServiceProviderManager;
+import com.healthypork.utils.Constants;
 
 public class EsperStatementSubscriber{
 	
     private String topic = "observations";
     private MqttClient client;
+    private int qos = 1;
 	
 	public EsperStatementSubscriber() throws MqttException {	
-		String host = String.format("tcp://localhost:1883");
+		String host = String.format(Constants.MQTT_URL);
         //String[] auth = this.getAuth(uri);
         String username = "root";
         String password = "root";
-        String clientId = "MQTT-Java-Example";
+        String clientId = "MQTT-HP-Esper";
 
 
         MqttConnectOptions conOpt = new MqttConnectOptions();
@@ -33,7 +34,8 @@ public class EsperStatementSubscriber{
 
 	public void update(String obsName) throws MqttPersistenceException, MqttException {	
 		System.out.println(obsName);
-        //MqttMessage message = new MqttMessage(obsName.getBytes());
-        //this.client.publish(this.topic, message); // Blocking publish
+		MqttMessage message = new MqttMessage(obsName.getBytes());
+		message.setQos(qos);
+		this.client.publish(this.topic, message); // Blocking publish
 	}
 }

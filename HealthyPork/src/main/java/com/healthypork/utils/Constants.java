@@ -12,8 +12,6 @@ package com.healthypork.utils;
 
 public class Constants {
     public static final String CONFIG_ESPER = "esper.cfg.xml";
-
-    public static final String MGMT_RMI_PORT = "rmi-port";
-    public static final String MGMT_SERVICE_URL = "jmx-service-url";
-    public static final String MGMT_MBEAN_NAME = "com.espertech.esper.mbean:type=EPRuntimeProviderMXMBean";
+    public static final String MQTT_URL = "tcp://localhost:1883";
+    
 }

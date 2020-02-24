@@ -74,7 +74,7 @@ void calibration(int nsegs)
   //Serial.println("Response from the server");
   //Serial.println(response);
 
-  delay(1000);
+  delay(500);
   
   
   ////////Temperature/Humidity////////
@@ -123,7 +123,7 @@ void calibration(int nsegs)
   // Serial.println(response);
 
   // Serial.println("-----------------------");
-  delay(1000);
+  delay(500);
   
 }
 

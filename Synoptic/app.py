@@ -28,14 +28,23 @@ def index():
 
 @socketio.on('subscribe_all')
 def handle_subscribe_all():
-    mqtt.subscribe('#', 1)
+    mqtt.subscribe('observations_filtered', 1)
+    mqtt.subscribe('airquality', 1)
+    mqtt.subscribe('noise', 1)
+    mqtt.subscribe('luminosity', 1)
+    mqtt.subscribe('humidity', 1)
+    mqtt.subscribe('temperature', 1)
+    mqtt.subscribe('weather_temp', 1)
+    mqtt.subscribe('weather_temp_min', 1)
+    mqtt.subscribe('weather_temp_max', 1)
+    mqtt.subscribe('weather_temp_feels', 1)
+    mqtt.subscribe('weather_humidity', 1)
 
 @mqtt.on_message()
 def handle_mqtt_message(client, userdata, message):
     data = dict(
         topic = message.topic,
         payload = str(message.payload.decode('UTF-8')))
-    print(data['topic'] + '-' + data['payload'])
     socketio.emit('mqtt_message', data=data)
 
 @mqtt.on_log()
